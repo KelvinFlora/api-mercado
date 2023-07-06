@@ -1,9 +1,9 @@
-import ClientData from "../models/Client.js";
+import ClientModel from "../models/Client.js";
 
 class ClientController {
     static listClient = async (req, res) => {
         try{
-        const result = await ClientData.find()
+        const result = await ClientModel.find()
         if (result.length > 0) {
             res.status(200).json(result)
         } else {
@@ -16,8 +16,8 @@ class ClientController {
     static listClientById = async (req, res) => {
         const id = req.params.id;
         try {
-            const result = await ClientData.findById(id)
-            if (result.length > 0) {
+            const result = await ClientModel.findById(id)
+            if (result) {
                 res.status(200).json(result)
             } else {
                 res.status(404).json({ message: "Não foi possível encontrar o cliente solicitado! Confira os dados e tente novamente."})
@@ -30,7 +30,7 @@ class ClientController {
     static registerClient = async (req, res) => {
         const data = req.body
         try {
-            const result = await ClientData.create(data)
+            const result = await ClientModel.create(data)
             if (result) {
                 res.status(201).json(result);
             } else{
@@ -45,7 +45,7 @@ class ClientController {
         const id = req.params.id;
         const data = req.body;
         try {
-            const result = await ClientData.updateOne( {_id: id}, data)
+            const result = await ClientModel.updateOne( {_id: id}, data)
             if (result) {
                 res.status(201).json({ message: "As alterações foram realizadas com sucesso!"})
             } else {
@@ -59,11 +59,11 @@ class ClientController {
     static deleteClient = async (req, res) => {
         const id = req.params.id;
         try {
-            const result = await ClientData.deleteOne(id);
-            if (result.length > 0) {
+            const result = await ClientModel.deleteOne({_id: id});
+            if (result.deletedCount > 0) {
                 res.status(201).json({ message: "As informações do cliente foram apagadas com sucesso!"})
             } else {
-                res.status(400).json({ messag: "Não foi possível apagar as informações do cliente!"})
+                res.status(400).json({ message: "Não foi possível apagar as informações do cliente!"})
             }
         } catch (error) {
             res.status(500).json({ message: "Erro interno do servidor!"})
