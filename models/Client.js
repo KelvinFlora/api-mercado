@@ -6,6 +6,6 @@ const ClientInfo = new mongoose.Schema ({
     adress: {type: String, required: true}
 })
 
-const ClientData = mongoose.model("clientes", ClientInfo )
+const ClientModel = mongoose.model("clientes", ClientInfo )
 
-export default ClientData
+export default ClientModel;
