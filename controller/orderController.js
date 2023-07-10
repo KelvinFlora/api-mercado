@@ -1,9 +1,10 @@
 import OrderModel from "../models/Order.js";
+import ProductModel from "../models/Product.js";
 
 class OrderController {
   static listOrder = async (req, res) => {
     try {
-      const result = await OrderModel.find().populate("productnumber").exec();
+      const result = await OrderModel.find();
       if (result.length > 0) {
         res.status(200).json(result);
       } else {
@@ -16,6 +17,11 @@ class OrderController {
       res.status(500).json({ message: "Erro interno do servidor!" });
     }
   };
+
+  static listPrice = async (req, res) => {
+    const result = await OrderModel.find();
+    res.status(200).json(result)
+  }
 
   static listIdOrder = async (req, res) => {
     const id = req.params.id;
